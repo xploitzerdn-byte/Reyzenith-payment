@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reyzenith | Secure Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .payment-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: #3b82f6;
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+        }
+
+        .sub-title {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        .invoice-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px dashed rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .invoice-title {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .amount {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #3b82f6;
+            margin-top: 5px;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .method-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .method-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .method-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .method-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .method-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #fff;
+        }
+
+        .method-number {
+            font-family: monospace;
+            color: #9ca3af;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+
+        .btn-copy {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-copy:hover {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .btn-confirm {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.75rem;
+            color: #4b5563;
+        }
+
+        /* Notifikasi sukses salin */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #10b981;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="payment-card">
+        <div class="header">
+            <div class="logo">Ray<span>zenith</span></div>
+            <div class="sub-title">Sistem Pembayaran Resmi & Otomatis</div>
+        </div>
+
+        <div class="invoice-box">
+            <div class="invoice-title">Total Pembayaran</div>
+            <div class="amount">Rp 150.000</div>
+        </div>
+
+        <div class="section-title">Pilih Metode Transfer</div>
+
+        <div class="method-list">
+            <div class="method-item">
+                <div class="method-info">
+                    <span class="method-name">Bank BCA</span>
+                    <span class="method-number" id="bca-num">1234567890</span>
+                </div>
+                <button class="btn-copy" onclick="copyToClipboard('bca-num')">SALIN</button>
+            </div>
+
+            <div class="method-item">
+                <div class="method-info">
+                    <span class="method-name">DANA</span>
+                    <span class="method-number" id="dana-num">081234567890</span>
+                </div>
+                <button class="btn-copy" onclick="copyToClipboard('dana-num')">SALIN</button>
+            </div>
+
+            <div class="method-item">
+                <div class="method-info">
+                    <span class="method-name">OVO</span>
+                    <span class="method-number" id="ovo-num">081234567890</span>
+                </div>
+                <button class="btn-copy" onclick="copyToClipboard('ovo-num')">SALIN</button>
+            </div>
+        </div>
+
+        <a href="https://wa.me/6281234567890?text=Halo%20Reyzenith,%20saya%20sudah%20melakukan%20pembayaran" target="_blank" class="btn-confirm">
+            Konfirmasi Pembayaran (WhatsApp)
+        </a>
+
+        <div class="footer">
+            &copy; 2026 Rayzenith. All Rights Reserved.
+        </div>
+    </div>
+
+    <div class="toast" id="toastBox">Berhasil menyalin nomor!</div>
+
+    <script>
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const toast = document.getElementById("toastBox");
+                toast.classList.add("show");
+                
+                setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 2000);
+            }).catch(err => {
+                console.error('Gagal menyalin teks: ', err);
+            });
+        }
+    </script>
+
+</body>
+  </html>
+  
